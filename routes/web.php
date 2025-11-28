@@ -1,17 +1,19 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Models\Question;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+    return inertia('Welcome', [
+        'questions' => Question::with('user')->latest()->get() //eager loading
     ]);
+});
+
+Route::get("/about", function () {
+    return inertia("about");
 });
 
 Route::get('/dashboard', function () {
@@ -24,4 +26,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
