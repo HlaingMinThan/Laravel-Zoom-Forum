@@ -7,8 +7,21 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
+    $search = request('query');
+    if ($search) {
+        $questions = Question::where("title", "LIKE", "%" . $search . "%")->get();
+    } else {
+        $questions = Question::with('user')->latest()->get(); //eager loading
+    }
     return inertia('Welcome', [
-        'questions' => Question::with('user')->latest()->get() //eager loading
+        'questions' => $questions
+    ]);
+});
+
+Route::get('/questions/{id}', function ($id) {
+    $question = Question::findOrFail($id);
+    return inertia('QuestionDetail', [
+        'question' => $question->load('user')
     ]);
 });
 
