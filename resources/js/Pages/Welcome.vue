@@ -90,16 +90,10 @@
             <!-- Tags -->
             <div class="flex flex-wrap gap-1.5">
               <span
+                v-for="tag in question.tags"
+                :key="tag.id"
                 class="px-1.5 py-0.5 bg-[#1f2d3d] text-[#58a6ff] text-[12px] rounded-[3px] hover:bg-[#2c3e50] cursor-pointer transition-colors"
-                >laravel</span
-              >
-              <span
-                class="px-1.5 py-0.5 bg-[#1f2d3d] text-[#58a6ff] text-[12px] rounded-[3px] hover:bg-[#2c3e50] cursor-pointer transition-colors"
-                >vue.js</span
-              >
-              <span
-                class="px-1.5 py-0.5 bg-[#1f2d3d] text-[#58a6ff] text-[12px] rounded-[3px] hover:bg-[#2c3e50] cursor-pointer transition-colors"
-                >inertia</span
+                > {{ tag.name }}</span
               >
             </div>
 
@@ -110,11 +104,12 @@
               <div class="flex items-center gap-1.5">
                 <!-- Avatar mock -->
                 <div class="w-4 h-4 bg-purple-500 rounded-[2px]"></div>
-                <span
-                  v-if="question.user"
-                  class="text-[#58a6ff] hover:text-[#79c0ff] cursor-pointer"
-                  >{{ question.user.name }}</span
-                >
+                <Link :href="'/users/'+question.user.id" v-if="question.user">
+                  <span
+                    class="text-[#58a6ff] hover:text-[#79c0ff] cursor-pointer"
+                    >{{ question.user.name }}</span
+                  >
+                </Link>
                 <span v-else class="text-[#8b949e]">Anonymous</span>
                 <span class="text-[#c9d1d9] font-bold">125</span>
               </div>

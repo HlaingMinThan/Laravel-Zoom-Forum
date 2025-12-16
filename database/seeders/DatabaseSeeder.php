@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -16,9 +17,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // user 10 -> each questions 10 -> total questions 100
-        User::factory(10)
-            ->has(Question::factory()->count(10))
+        // total 5 questions and each question should have 5 answers
+        Question::factory(5)
+            ->has(Answer::factory()->count(5))
             ->create();
     }
 }

@@ -9,8 +9,8 @@ class QuestionController extends Controller
 {
     public function index()
     {
-        $filters = request(['tag', 'query']); // array
-        $questions = Question::with('user')
+        $filters = request(['tag', 'query']); // associated array
+        $questions = Question::with('user', 'tags')
             ->latest()
             ->filter($filters)
             ->get();
@@ -23,7 +23,7 @@ class QuestionController extends Controller
     {
         $question = Question::findOrFail($id);
         return inertia('QuestionDetail', [
-            'question' => $question->load('user')
+            'question' => $question->load('user', 'tags', 'answers.user')
         ]);
     }
 

@@ -29,11 +29,17 @@ class Question extends Model
             $query->where("title", "LIKE", "%" . $filters['query'] . "%");
         }
         if (isset($filters['tag'])) {
-            dd($filters['tag']);
-            // // tag id -> 1 -> question query -> tag id -> questions
-            // $query->whereHas("tags", function ($q) use ($filters) {
-            //     $q->where("id", $filters['tag']);
-            // });
+            $query->whereHas("tags", function ($q) use ($filters) {
+                $q->where("id", $filters['tag']);
+            });
         }
     }
+    // a question hasMany answers
+    public function answers()
+    {
+        return $this->hasMany(Answer::class, 'question_id');
+    }
 }
+
+//question model -> tag -> questions
+// tag model -> questions ($tag->questions)

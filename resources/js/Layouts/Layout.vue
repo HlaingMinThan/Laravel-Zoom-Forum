@@ -59,7 +59,7 @@
         <div class="flex items-center gap-2">
           <template v-if="$page.props.auth?.user">
             <Link
-              href="/dashboard"
+              :href="`/users/${$page.props.auth.user.id}`"
               class="flex items-center gap-2 text-sm font-medium hover:bg-[#21262d] px-3 py-2 rounded text-[#c9d1d9]"
             >
               <!-- Avatar Placeholder -->
