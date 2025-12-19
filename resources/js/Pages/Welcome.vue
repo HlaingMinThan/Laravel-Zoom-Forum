@@ -47,8 +47,9 @@
       class="flex flex-col divide-y divide-[#30363d] border-t border-[#30363d]"
     >
       <!-- Question Item -->
+      <InfiniteScroll data="questions">
       <div
-        v-for="question in questions"
+        v-for="question in questions.data"
         :key="question.id"
         class="flex p-4 pl-4 gap-4 hover:bg-[#161b22] transition-colors duration-150"
       >
@@ -121,6 +122,7 @@
           </div>
         </div>
       </div>
+    </InfiniteScroll>
 
       <!-- Empty State -->
       <div
@@ -151,13 +153,16 @@
 </template>
 <script>
 import { Link } from "@inertiajs/vue3";
+import { InfiniteScroll } from '@inertiajs/vue3'
+
 export default {
   components: {
     Link,
+    InfiniteScroll
   },
   props: {
     questions: {
-      type: Array,
+      type: Object,
     },
   },
 };

@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', [QuestionController::class, 'index'])->name('home');
+Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('questions.show');
 Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::get('/questions/ask', [QuestionController::class, 'create'])->name('questions.create');
 Route::post('/questions/store', [QuestionController::class, 'store'])->name('questions.store');
-Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('questions.show');
 Route::post('/answers/store', [AnswerController::class, 'store'])->name('answers.store');
 
 Route::middleware('auth')->group(function () {

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class QuestionController extends Controller
 {
@@ -12,10 +13,9 @@ class QuestionController extends Controller
         $filters = request(['tag', 'query']); // associated array
         $questions = Question::with('user', 'tags')
             ->latest()
-            ->filter($filters)
-            ->get();
+            ->filter($filters);
         return inertia('Welcome', [
-            'questions' => $questions
+            'questions' => Inertia::scroll(fn() => $questions->paginate())
         ]);
     }
 
