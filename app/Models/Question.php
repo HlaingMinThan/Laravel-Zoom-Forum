@@ -39,6 +39,23 @@ class Question extends Model
     {
         return $this->hasMany(Answer::class, 'question_id');
     }
+
+    public function votes()
+    {
+        return $this->morphMany(Vote::class, 'votable');
+    }
+
+    public function upvotes()
+    {
+        return $this->morphMany(Vote::class, 'votable')
+            ->where('value', 'upvote');
+    }
+
+    public function downvotes()
+    {
+        return $this->morphMany(Vote::class, 'votable')
+            ->where('value', 'downvote');
+    }
 }
 
 //question model -> tag -> questions

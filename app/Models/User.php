@@ -46,6 +46,12 @@ class User extends Authenticatable
         ];
     }
 
+    public function votes()
+    {
+        return $this->hasMany(Vote::class);
+    }
+
+
     // a user hasMany questions
     public function questions()
     {
