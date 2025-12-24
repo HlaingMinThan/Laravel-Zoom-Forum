@@ -29,15 +29,21 @@ class QuestionController extends Controller
     public function show($id)
     {
         $question = Question::findOrFail($id);
+        $answers =  $question->answers()
+            ->with('user')
+            ->withCount(['upvotes', 'downvotes'])
+            ->paginate(10)
+            ->through(function ($answer) {
+                $vote = $answer->votes()->where('user_id', auth()->id())->first()?->value;
+                $answer->userVote = $vote;
+                return $answer;
+            });
         return inertia('QuestionDetail', [
             'question' => $question->load([
                 'user',
-                'tags',
-                'answers' => function ($q) {
-                    $q->with('user')
-                        ->withCount(['upvotes', 'downvotes']);
-                }
+                'tags'
             ])->loadCount('upvotes', 'downvotes'),
+            'answers' => $answers,
             'userVote' => $question->votes()
                 ->where('user_id', auth()->id())
                 ->first()?->value

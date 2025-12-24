@@ -281,6 +281,8 @@
 </template>
 <script>
 import { Link } from "@inertiajs/vue3";
+import debounce from "lodash/debounce";
+
 export default {
   components: { Link },
   data() {
@@ -290,14 +292,20 @@ export default {
   },
   watch: {
     search() {
-      //programatic redirect
-      this.$inertia.get("/?query=" + this.search);
+      this.debouncedSearch(this.search)
     },
   },
   methods: {
     logout() {
       this.$inertia.post("/logout");
     },
+    async searchData(query) {
+      this.$inertia.get("/?query=" + query);
+    },
+  },
+  created() {
+    // ✅ create debounce once
+    this.debouncedSearch = debounce(this.searchData, 400);
   },
 };
 </script>

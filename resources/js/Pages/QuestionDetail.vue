@@ -39,12 +39,12 @@
                 <!-- Voting Sidebar -->
                 <div class="flex flex-col items-center gap-2 w-10 flex-shrink-0">
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
-                        {{question.upvotes_count}}
+                        {{ question.upvotes_count }}
                     </div>
                     <button
-                        @click="vote('upvote','question')"
+                        @click="vote('upvote', 'question')"
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
-                        :class="{'text-[#f78166]' : userVote === 'upvote'}"
+                        :class="{ 'text-[#f78166]': userVote === 'upvote' }"
                     >
                         <svg
                             class="w-9 h-9"
@@ -55,12 +55,12 @@
                         </svg>
                     </button>
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
-                        {{question.downvotes_count}}
+                        {{ question.downvotes_count }}
                     </div>
                     <button
-                        @click="vote('downvote','question')"
+                        @click="vote('downvote', 'question')"
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
-                        :class="{'text-[#f78166]' : userVote === 'downvote'}"
+                        :class="{ 'text-[#f78166]': userVote === 'downvote' }"
                     >
                         <svg
                             class="w-9 h-9"
@@ -144,7 +144,7 @@
             <!-- Answers Section Header -->
             <div class="mt-12 flex items-center justify-between mb-4">
                 <h2 class="text-[19px] text-[#e6edf3] font-normal">
-                    {{ question.answers.length }} Answers
+                    {{ answers.data.length }} Answers
                 </h2>
                 <div class="flex items-center gap-2">
                     <span class="text-[12px] text-[#8b949e]">Sorted by:</span>
@@ -160,7 +160,7 @@
 
             <!-- Answers List -->
             <div
-                v-for="answer in question.answers"
+                v-for="answer in answers.data"
                 :id="`answerId-${answer.id}`"
                 :key="answer.id"
                 class="flex gap-4 border-b border-[#30363d] py-6 last:border-0"
@@ -168,10 +168,11 @@
                 <!-- Voting Sidebar -->
                 <div class="flex flex-col items-center gap-2 w-10 flex-shrink-0">
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
-                        {{answer.upvotes_count}}
+                        {{ answer.upvotes_count }}
                     </div>
                     <button
-                        @click="vote('upvote','answer',answer.id)"
+                        :class="{'text-[#f78166]' : answer.userVote === 'upvote'}"
+                        @click="vote('upvote', 'answer', answer.id)"
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
                     >
                         <svg
@@ -183,10 +184,11 @@
                         </svg>
                     </button>
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
-                        {{answer.downvotes_count}}
+                        {{ answer.downvotes_count }}
                     </div>
                     <button
-                        @click="vote('downvote','answer',answer.id)"
+                      :class="{'text-[#f78166]' : answer.userVote === 'downvote'}"
+                        @click="vote('downvote', 'answer', answer.id)"
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
                     >
                         <svg
@@ -252,10 +254,38 @@
                     </div>
                 </div>
             </div>
+            <div
+                class="mt-6 mb-10 flex justify-center"
+                v-if="answers.links.length > 3"
+            >
+                <div class="flex flex-wrap gap-1">
+                    <template
+                        v-for="(link, key) in answers.links"
+                        :key="key"
+                    >
+                        <div
+                            v-if="link.url === null"
+                            class="px-3 py-2 text-sm text-[#8b949e] border border-transparent rounded-[6px]"
+                            v-html="link.label"
+                        ></div>
+                        <Link
+                            v-else
+                            :href="link.url"
+                            class="px-3 py-2 text-sm border rounded-[6px] transition-colors"
+                            :class="{
+                                'bg-[#1f6feb] text-white border-[#1f6feb]': link.active,
+                                'text-[#c9d1d9] border-transparent hover:bg-[#21262d] hover:border-[#30363d]': !link.active
+                            }"
+                        >
+                        <span v-html="link.label"></span>
+                        </Link>
+                    </template>
+                </div>
+            </div>
 
             <!-- Answer Placeholder (if no answers) -->
             <div
-                v-if="question.answers.length === 0"
+                v-if="answers.data.length === 0"
                 class="border-t border-[#30363d] py-10 text-center text-[#8b949e]"
             >
                 Know someone who can answer? Share a link to this
@@ -315,10 +345,12 @@
 </template>
 <script>
 import { useForm } from "@inertiajs/vue3";
-
+import {Link} from "@inertiajs/vue3";
 export default {
+    components: {Link},
     props: {
         question: Object,
+        answers: Object,
         userVote: String,
     },
     data() {
@@ -336,14 +368,14 @@ export default {
             });
             this.form.reset();
         },
-        vote(value,type,id = null) {
+        vote(value, type, id = null) {
             const data = {
-                votable_type:type,
+                votable_type: type,
                 votable_id: id ?? this.question.id,
                 value
             }
             this.$inertia.post("/votes", data, {
-                preserveScroll:true
+                preserveScroll: true
             })
         }
     },

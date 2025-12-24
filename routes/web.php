@@ -21,7 +21,7 @@ Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('questi
 Route::delete('/questions/{question}/destroy', [QuestionController::class, 'destroy'])->name('questions.destroy');
 Route::post('/answers/store', [AnswerController::class, 'store'])->name('answers.store')->middleware(AuthMiddleware::class);
 
-Route::post('/votes', [VoteController::class, 'toggle'])->name('votes.toggle');
+Route::post('/votes', [VoteController::class, 'toggle'])->name('votes.toggle')->middleware(AuthMiddleware::class);
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
