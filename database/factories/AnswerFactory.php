@@ -20,7 +20,7 @@ class AnswerFactory extends Factory
     {
         return [
             'body' => fake()->paragraph(),
-            'user_id' => User::factory(),
+            'user_id' => fake()->numberBetween(1,5),
             'question_id' => Question::factory(),
         ];
     }

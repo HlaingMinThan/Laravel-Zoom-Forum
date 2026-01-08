@@ -2,13 +2,12 @@
 
 namespace Database\Factories;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Question>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Tag>
  */
-class QuestionFactory extends Factory
+class TagFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -18,9 +17,8 @@ class QuestionFactory extends Factory
     public function definition(): array
     {
         return [
-            'title' => fake()->sentence(),
-            'body' => fake()->paragraph(),
-            'user_id' => fake()->numberBetween(1,5)
+            'name'=>fake()->name(),
+            'slug'=>fake()->unique()->slug()
         ];
     }
 }
