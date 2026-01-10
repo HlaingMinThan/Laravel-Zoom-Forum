@@ -7,10 +7,8 @@
         <h1 class="text-[27px] text-[#e6edf3] leading-tight break-words mb-2 flex-1 pr-4">
             {{ question.title }}
         </h1>
-        <Link
-            href="/questions/ask"
-            class="bg-[#1f6feb] hover:bg-[#388bfd] text-white text-[13px] font-medium px-3 py-2 rounded-[3px] border border-[rgba(240,246,252,0.1)] shadow-sm whitespace-nowrap transition-colors flex-shrink-0"
-        >
+        <Link href="/questions/ask"
+            class="bg-[#1f6feb] hover:bg-[#388bfd] text-white text-[13px] font-medium px-3 py-2 rounded-[3px] border border-[rgba(240,246,252,0.1)] shadow-sm whitespace-nowrap transition-colors flex-shrink-0">
         Ask Question
         </Link>
     </div>
@@ -41,49 +39,28 @@
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
                         {{ question.upvotes_count }}
                     </div>
-                    <button
-                        @click="vote('upvote', 'question')"
+                    <button @click="vote('upvote', 'question')"
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
-                        :class="{ 'text-[#f78166]': userVote === 'upvote' }"
-                    >
-                        <svg
-                            class="w-9 h-9"
-                            fill="currentColor"
-                            viewBox="0 0 36 36"
-                        >
+                        :class="{ 'text-[#f78166]': userVote === 'upvote' }">
+                        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 36 36">
                             <path d="M2 26h32L18 10 2 26z"></path>
                         </svg>
                     </button>
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
                         {{ question.downvotes_count }}
                     </div>
-                    <button
-                        @click="vote('downvote', 'question')"
+                    <button @click="vote('downvote', 'question')"
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
-                        :class="{ 'text-[#f78166]': userVote === 'downvote' }"
-                    >
-                        <svg
-                            class="w-9 h-9"
-                            fill="currentColor"
-                            viewBox="0 0 36 36"
-                        >
+                        :class="{ 'text-[#f78166]': userVote === 'downvote' }">
+                        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 36 36">
                             <path d="M2 10h32L18 26 2 10z"></path>
                         </svg>
                     </button>
 
                     <button class="mt-2 p-2 hover:bg-[#21262d] rounded text-[#8b949e] hover:text-[#c9d1d9]">
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                            ></path>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
                         </svg>
                     </button>
                 </div>
@@ -104,11 +81,9 @@
 
                     <!-- Tags -->
                     <div class="flex flex-wrap gap-2 mb-8">
-                        <span
-                            v-for="tag in question.tags"
-                            :key="tag.id"
-                            class="px-2 py-1 bg-[#1f2d3d] text-[#58a6ff] text-[12px] rounded-[3px] hover:bg-[#2c3e50] cursor-pointer transition-colors"
-                        >{{ tag.name }}</span>
+                        <span v-for="tag in question.tags" :key="tag.id"
+                            class="px-2 py-1 bg-[#1f2d3d] text-[#58a6ff] text-[12px] rounded-[3px] hover:bg-[#2c3e50] cursor-pointer transition-colors">{{
+                                tag.name }}</span>
                     </div>
                     <!-- Post Actions & User Card -->
                     <div class="flex flex-wrap items-center justify-between gap-4 pt-4">
@@ -127,10 +102,7 @@
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 bg-purple-500 rounded-[3px]"></div>
                                 <div class="flex flex-col text-[13px]">
-                                    <Link
-                                        href="#"
-                                        class="text-[#58a6ff] hover:text-[#79c0ff]"
-                                    >{{
+                                    <Link href="#" class="text-[#58a6ff] hover:text-[#79c0ff]">{{
                                         question.user?.name || "Anonymous"
                                     }}</Link>
                                     <span class="text-[#c9d1d9] font-bold text-[12px]">125</span>
@@ -149,8 +121,7 @@
                 <div class="flex items-center gap-2">
                     <span class="text-[12px] text-[#8b949e]">Sorted by:</span>
                     <select
-                        class="bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] text-[12px] p-1 rounded-[3px] focus:border-[#58a6ff] outline-none"
-                    >
+                        class="bg-[#0d1117] border border-[#30363d] text-[#c9d1d9] text-[12px] p-1 rounded-[3px] focus:border-[#58a6ff] outline-none">
                         <option>Highest score (default)</option>
                         <option>Date modified (newest first)</option>
                         <option>Date created (oldest first)</option>
@@ -159,60 +130,35 @@
             </div>
 
             <!-- Answers List -->
-            <div
-                v-for="answer in answers.data"
-                :id="`answerId-${answer.id}`"
-                :key="answer.id"
-                class="flex gap-4 border-b border-[#30363d] py-6 last:border-0"
-            >
+            <div v-for="answer in answers.data" :id="`answerId-${answer.id}`" :key="answer.id"
+                class="flex gap-4 border-b border-[#30363d] py-6 last:border-0">
                 <!-- Voting Sidebar -->
                 <div class="flex flex-col items-center gap-2 w-10 flex-shrink-0">
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
                         {{ answer.upvotes_count }}
                     </div>
-                    <button
-                        :class="{'text-[#f78166]' : answer.userVote === 'upvote'}"
+                    <button :class="{ 'text-[#f78166]': answer.userVote === 'upvote' }"
                         @click="vote('upvote', 'answer', answer.id)"
-                        class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
-                    >
-                        <svg
-                            class="w-9 h-9"
-                            fill="currentColor"
-                            viewBox="0 0 36 36"
-                        >
+                        class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors">
+                        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 36 36">
                             <path d="M2 26h32L18 10 2 26z"></path>
                         </svg>
                     </button>
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
                         {{ answer.downvotes_count }}
                     </div>
-                    <button
-                      :class="{'text-[#f78166]' : answer.userVote === 'downvote'}"
+                    <button :class="{ 'text-[#f78166]': answer.userVote === 'downvote' }"
                         @click="vote('downvote', 'answer', answer.id)"
-                        class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
-                    >
-                        <svg
-                            class="w-9 h-9"
-                            fill="currentColor"
-                            viewBox="0 0 36 36"
-                        >
+                        class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors">
+                        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 36 36">
                             <path d="M2 10h32L18 26 2 10z"></path>
                         </svg>
                     </button>
 
                     <button class="mt-2 p-2 hover:bg-[#21262d] rounded text-[#8b949e] hover:text-[#c9d1d9]">
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                            ></path>
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"></path>
                         </svg>
                     </button>
                 </div>
@@ -241,10 +187,7 @@
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 bg-green-500 rounded-[3px]"></div>
                                 <div class="flex flex-col text-[13px]">
-                                    <Link
-                                        href="#"
-                                        class="text-[#58a6ff] hover:text-[#79c0ff]"
-                                    >{{
+                                    <Link href="#" class="text-[#58a6ff] hover:text-[#79c0ff]">{{
                                         answer.user?.name || "Anonymous"
                                     }}</Link>
                                     <span class="text-[#c9d1d9] font-bold text-[12px]">15</span>
@@ -254,29 +197,17 @@
                     </div>
                 </div>
             </div>
-            <div
-                class="mt-6 mb-10 flex justify-center"
-                v-if="answers.links.length > 3"
-            >
+            <div class="mt-6 mb-10 flex justify-center" v-if="answers.links.length > 3">
                 <div class="flex flex-wrap gap-1">
-                    <template
-                        v-for="(link, key) in answers.links"
-                        :key="key"
-                    >
-                        <div
-                            v-if="link.url === null"
+                    <template v-for="(link, key) in answers.links" :key="key">
+                        <div v-if="link.url === null"
                             class="px-3 py-2 text-sm text-[#8b949e] border border-transparent rounded-[6px]"
-                            v-html="link.label"
-                        ></div>
-                        <Link
-                            v-else
-                            :href="link.url"
-                            class="px-3 py-2 text-sm border rounded-[6px] transition-colors"
+                            v-html="link.label"></div>
+                        <Link v-else :href="link.url" class="px-3 py-2 text-sm border rounded-[6px] transition-colors"
                             :class="{
                                 'bg-[#1f6feb] text-white border-[#1f6feb]': link.active,
                                 'text-[#c9d1d9] border-transparent hover:bg-[#21262d] hover:border-[#30363d]': !link.active
-                            }"
-                        >
+                            }">
                         <span v-html="link.label"></span>
                         </Link>
                     </template>
@@ -284,10 +215,7 @@
             </div>
 
             <!-- Answer Placeholder (if no answers) -->
-            <div
-                v-if="answers.data.length === 0"
-                class="border-t border-[#30363d] py-10 text-center text-[#8b949e]"
-            >
+            <div v-if="answers.data.length === 0" class="border-t border-[#30363d] py-10 text-center text-[#8b949e]">
                 Know someone who can answer? Share a link to this
                 <span class="text-[#58a6ff] cursor-pointer">question</span> via
                 email,
@@ -296,10 +224,7 @@
             </div>
 
             <!-- Your Answer Section -->
-            <form
-                @submit.prevent="submit"
-                class="mt-8 pt-6 border-t border-[#30363d]"
-            >
+            <form @submit.prevent="submit" class="mt-8 pt-6 border-t border-[#30363d]">
                 <h2 class="text-[19px] text-[#e6edf3] font-normal mb-4">
                     Your Answer
                 </h2>
@@ -317,25 +242,17 @@
                             <span class="font-mono">&lt;/&gt;</span>
                         </button>
                     </div>
-                    <textarea
-                        v-model="form.answer"
-                        rows="8"
+                    <textarea v-model="form.answer" rows="8"
                         class="w-full bg-[#0d1117] text-[#c9d1d9] p-3 focus:outline-none resize-y text-[14px] font-mono"
-                        placeholder="Type your answer here..."
-                    ></textarea>
+                        placeholder="Type your answer here..."></textarea>
                 </div>
-                <div
-                    v-if="form.errors.answer"
-                    class="mt-2 text-red-400 text-xs"
-                >
+                <div v-if="form.errors.answer" class="mt-2 text-red-400 text-xs">
                     {{ form.errors.answer }}
                 </div>
 
                 <div class="mt-4">
-                    <button
-                        type="submit"
-                        class="bg-[#1f6feb] hover:bg-[#388bfd] text-white text-[13px] font-medium px-3 py-2.5 rounded-[3px] border border-[rgba(240,246,252,0.1)] shadow-sm transition-colors"
-                    >
+                    <button type="submit"
+                        class="bg-[#1f6feb] hover:bg-[#388bfd] text-white text-[13px] font-medium px-3 py-2.5 rounded-[3px] border border-[rgba(240,246,252,0.1)] shadow-sm transition-colors">
                         Post Your Answer
                     </button>
                 </div>
@@ -345,13 +262,25 @@
 </template>
 <script>
 import { useForm } from "@inertiajs/vue3";
-import {Link} from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
 export default {
-    components: {Link},
+    components: { Link },
     props: {
         question: Object,
         answers: Object,
         userVote: String,
+        id: {
+            type: [Number, String],
+            required: true
+        },
+        mounted() {
+
+            if (this.question && this.question.id) {
+                this.recordView();
+            } else if (this.id) {
+                this.recordView();
+            }
+        }
     },
     data() {
         return {
@@ -362,6 +291,21 @@ export default {
         };
     },
     methods: {
+        async recordView() {
+
+            const qId = this.question ? this.question.id : this.id;
+
+            if (!qId || qId === 'undefined') {
+                return;
+            }
+
+            try {
+                await axios.post(`/api/recent-views/${qId}`);
+            } catch (error) {
+                // handle error
+            }
+        },
+
         submit() {
             this.form.post("/answers/store", {
                 preserveScroll: true

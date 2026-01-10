@@ -5,6 +5,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\QuestionController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\VoteController;
+use App\Http\Controllers\RecentViewController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Models\Question;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,7 @@ Route::post('/questions/store', [QuestionController::class, 'store'])->name('que
 Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('questions.show');
 Route::delete('/questions/{question}/destroy', [QuestionController::class, 'destroy'])->name('questions.destroy');
 Route::post('/answers/store', [AnswerController::class, 'store'])->name('answers.store')->middleware(AuthMiddleware::class);
+Route::middleware('auth:sanctum')->post('/recent-views/{question_id}', [RecentViewController::class, 'recordView']);
 
 Route::post('/votes', [VoteController::class, 'toggle'])->name('votes.toggle')->middleware(AuthMiddleware::class);
 Route::middleware('auth')->group(function () {

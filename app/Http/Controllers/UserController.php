@@ -13,6 +13,7 @@ class UserController extends Controller
             'user' => $user->loadCount(['questions', 'answers']),
             'questions' => $user->questions()->latest()->take(5)->get(),
             'answers' => $user->answers()->with('question')->latest()->take(5)->get(),
+            'recentQuestions' => $user->recentQuestions()->take(10)->get(),
         ]);
     }
 }

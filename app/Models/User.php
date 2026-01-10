@@ -56,4 +56,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Answer::class);
     }
+    public function recentQuestions()
+    {
+
+        return $this->belongsToMany(Question::class, 'recent_views')
+            ->withPivot('viewed_at')
+            ->orderByPivot('viewed_at', 'desc');
+    }
 }
