@@ -49,11 +49,52 @@ class User extends Authenticatable
     // a user hasMany questions
     public function questions()
     {
-        return $this->hasMany(Question::class, "user_id");
+        return $this->hasMany(Question::class, 'user_id');
     }
 
     public function answers()
     {
         return $this->hasMany(Answer::class);
+    }
+
+    /**
+     * Calculate total points from answer upvotes.
+     * Each upvote on an answer = 1 point.
+     */
+    public function getPoints(): int
+    {
+        return $this->answers()
+            ->withCount(['upvotes'])
+            ->get()
+            ->sum('upvotes_count');
+    }
+
+    /**
+     * Get badge name based on points.
+     * Newbie: 0-4 points
+     * Helper: 5-19 points
+     * Expert: 20+ points
+     */
+    public function getBadge(): string
+    {
+        $points = $this->getPoints();
+
+        if ($points >= 20) {
+            return 'expert';
+        }
+
+        if ($points >= 5) {
+            return 'helper';
+        }
+
+        return 'newbie';
+    }
+
+    /**
+     * Get badge display name.
+     */
+    public function getBadgeDisplayName(): string
+    {
+        return ucfirst($this->getBadge());
     }
 }

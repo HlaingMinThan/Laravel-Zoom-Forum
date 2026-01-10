@@ -34,6 +34,21 @@
                         <span>Joined {{ formatDate(user.created_at) }}</span>
                      </div>
                 </div>
+
+                <!-- Badge Section -->
+                <div class="flex items-center justify-center md:justify-start gap-4 mb-8">
+                    <div class="flex items-center gap-3 bg-[#161b22] border border-gray-800 rounded-lg px-4 py-3">
+                        <img 
+                            :src="`/images/badges/${user.badge || 'newbie'}.png`" 
+                            :alt="`${user.badge_display_name || 'Newbie'} Badge`"
+                            class="w-12 h-12 object-contain"
+                        />
+                        <div>
+                            <div class="text-sm font-semibold text-gray-300">{{ user.badge_display_name || 'Newbie' }} Badge</div>
+                            <div class="text-xs text-gray-500">{{ user.points || 0 }} Points</div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -44,16 +59,19 @@
                 <!-- Stats Grid -->
                 <div class="bg-[#161b22] border border-gray-800 rounded-xl p-6 shadow-sm">
                     <h3 class="text-sm font-semibold text-gray-100 uppercase tracking-wider my-5">Community Stats</h3>
-                    <div class="flex justify-between gap-4 mt-5">
-                        <div class="p-4 w-full bg-[#0d1117] rounded-lg border border-gray-800/50 hover:border-gray-700 transition-colors">
+                    <div class="grid grid-cols-3 gap-4 mt-5">
+                        <div class="p-4 bg-[#0d1117] rounded-lg border border-gray-800/50 hover:border-gray-700 transition-colors">
                             <div class="text-2xl font-bold text-white mb-1">{{ user.questions_count || 0 }}</div>
                             <div class="text-xs text-gray-500 font-medium uppercase tracking-wide">Questions</div>
                         </div>
-                        <div class="p-4  w-full bg-[#0d1117] rounded-lg border border-gray-800/50 hover:border-gray-700 transition-colors">
+                        <div class="p-4 bg-[#0d1117] rounded-lg border border-gray-800/50 hover:border-gray-700 transition-colors">
                             <div class="text-2xl font-bold text-white mb-1">{{ user.answers_count || 0 }}</div>
                             <div class="text-xs text-gray-500 font-medium uppercase tracking-wide">Answers</div>
                         </div>
-                         
+                        <div class="p-4 bg-[#0d1117] rounded-lg border border-gray-800/50 hover:border-gray-700 transition-colors">
+                            <div class="text-2xl font-bold text-white mb-1">{{ user.points || 0 }}</div>
+                            <div class="text-xs text-gray-500 font-medium uppercase tracking-wide">Points</div>
+                        </div>
                     </div>
                 </div>
             </div>
