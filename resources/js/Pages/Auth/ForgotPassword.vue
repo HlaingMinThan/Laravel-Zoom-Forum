@@ -6,7 +6,6 @@ import PrimaryButton from "@/Components/PrimaryButton.vue";
 import TextInput from "@/Components/TextInput.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import Otp from "./Otp.vue";
-import { ref } from "vue";
 
 defineOptions({
     layout: null,
@@ -17,6 +16,9 @@ defineProps({
     },
     email: {
         type: String,
+    },
+    expire_at: {
+        type: Number,
     },
 });
 const form = useForm({
@@ -67,7 +69,7 @@ const submit = () => {
             </form>
         </div>
         <div v-else>
-            <Otp :email="email" :status="status" />
+            <Otp :email="email" :status="status" :expire_at="expire_at" />
         </div>
     </GuestLayout>
 </template>

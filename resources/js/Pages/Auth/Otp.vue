@@ -1,17 +1,16 @@
 <script setup>
-import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
 import InputLabel from "@/Components/InputLabel.vue";
 import PrimaryButton from "@/Components/PrimaryButton.vue";
 import { Head, useForm } from "@inertiajs/vue3";
-import { ref, onMounted, watch } from "vue";
+import { ref, onMounted, watch, computed, onUnmounted } from "vue";
 import { router } from "@inertiajs/vue3";
 
 defineOptions({
     layout: null,
 });
 
-defineProps({
+let { email, status, expire_at } = defineProps({
     email: {
         type: String,
         default: "",
@@ -19,11 +18,61 @@ defineProps({
     status: {
         type: String,
     },
+    expire_at: {
+        type: Number,
+    },
 });
 
 const form = useForm({
     otp: "",
 });
+
+let timer = ref(180);
+let runningTime = null;
+
+let displayTime = computed(() => {
+    let minutes = Math.floor(timer.value / 60);
+    let seconds = timer.value % 60;
+    return `${minutes} : ${seconds.toString().padStart(2, "0")}`;
+});
+
+const startTimer = (startTime = null) => {
+    if (startTime != null) {
+        timer.value = startTime;
+    } else {
+        timer.value = 180;
+    }
+    if (runningTime) clearInterval(runningTime);
+    runningTime = setInterval(() => {
+        timer.value--;
+        if (timer.value <= 0) {
+            clearInterval(runningTime);
+        }
+    }, 1000);
+};
+
+onMounted(() => {
+    let currentTime = Math.floor(Date.now() / 1000);
+    let remainingTime = expire_at - currentTime;
+    if (remainingTime > 0) {
+        startTimer(remainingTime);
+    } else {
+        timer.value = 0;
+    }
+});
+onUnmounted(() => {
+    clearInterval(runningTime);
+});
+
+let resendCode = () => {
+    router.post(
+        route("password.email"),
+        { email },
+        {
+            onSuccess: () => startTimer(),
+        }
+    );
+};
 
 const otpInputs = ref([]);
 const otpValues = ref(["", "", "", "", "", ""]);
@@ -129,7 +178,6 @@ watch(
 
 <template>
     <Head title="Verify OTP" />
-    {{ console.log(email) }}
 
     <div class="mb-4 text-sm text-gray-600">
         <div class="mb-2">
@@ -151,8 +199,8 @@ watch(
         <p>Please enter the 6-digit verification code sent to your email.</p>
     </div>
 
-    <div v-if="status" class="mb-4 text-sm font-medium text-green-600">
-        {{ status }}
+    <div v-if="email" class="mb-4 text-sm font-medium text-green-600">
+        {{ status }} ({{ displayTime }})
     </div>
 
     <form @submit.prevent="submit">
@@ -187,8 +235,14 @@ watch(
         <div class="mt-6 flex items-center justify-between">
             <button
                 type="button"
-                @click="router.post(route('password.request'), { email })"
-                class="text-sm text-gray-600 underline hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded"
+                @click="resendCode"
+                class="text-sm text-gray-600 underline focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 rounded"
+                :class="[
+                    timer > 0
+                        ? 'cursor-not-allowed'
+                        : 'cursor-pointer hover:text-gray-900',
+                ]"
+                :disabled="timer > 0"
             >
                 Resend Code
             </button>

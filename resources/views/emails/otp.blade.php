@@ -53,7 +53,7 @@
                                     ⚠️ Important:
                                 </p>
                                 <ul style="margin: 0; padding-left: 20px; color: #4b5563; font-size: 14px; line-height: 1.8;">
-                                    <li>This code will expire in 5 minutes</li>
+                                    <li>This code will expire after 3 minutes</li>
                                     <li>Never share this code with anyone</li>
                                     <li>If you didn't request this code, please ignore this email</li>
                                 </ul>

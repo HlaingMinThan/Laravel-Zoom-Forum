@@ -65,13 +65,17 @@ class User extends Authenticatable
         $otp = rand(100000,999999);
         
         // set otp code to password_reset_tokens table
-        DB::table('password_reset_tokens')->updateOrInsert(
-            ['email' => $this->email],
-            [
-                'token' => Hash::make($otp),
-                'created_at' => now()
-            ]
-        );
-        Mail::to($this->email)->send(new OtpMail($otp));
+        DB::transaction(function() use($otp){
+            DB::table('password_reset_tokens')->updateOrInsert(
+                ['email' => $this->email],
+                [
+                    'token' => Hash::make($otp),
+                    'created_at' => now()
+                    ]
+                );
+            });
+        Mail::to($this->email)->queue(new OtpMail($otp));
+        $expire_at = now()->addSeconds(180)->timestamp;
+        return $expire_at;
     }
 }
