@@ -36,9 +36,9 @@ let displayTime = computed(() => {
     return `${minutes} : ${seconds.toString().padStart(2, "0")}`;
 });
 
-const startTimer = (startTime = null) => {
-    if (startTime != null) {
-        timer.value = startTime;
+const startTimer = (remainingTime = null) => {
+    if (remainingTime != null) {
+        timer.value = remainingTime;
     } else {
         timer.value = 180;
     }
@@ -51,15 +51,6 @@ const startTimer = (startTime = null) => {
     }, 1000);
 };
 
-onMounted(() => {
-    let currentTime = Math.floor(Date.now() / 1000);
-    let remainingTime = expire_at - currentTime;
-    if (remainingTime > 0) {
-        startTimer(remainingTime);
-    } else {
-        timer.value = 0;
-    }
-});
 onUnmounted(() => {
     clearInterval(runningTime);
 });
@@ -81,6 +72,14 @@ onMounted(() => {
     // Focus first input on mount
     if (otpInputs.value[0]) {
         otpInputs.value[0].focus();
+    }
+
+    let currentTime = Math.floor(Date.now() / 1000);
+    let remainingTime = expire_at - currentTime;
+    if (remainingTime > 0) {
+        startTimer(remainingTime);
+    } else {
+        timer.value = 0;
     }
 });
 
@@ -162,18 +161,6 @@ const submit = () => {
         form.post(route("otp.verify"));
     }
 };
-
-// Watch for form errors and reset OTP if needed
-watch(
-    () => form.errors.otp,
-    () => {
-        if (form.errors.otp) {
-            // Optionally clear OTP on error
-            // otpValues.value = ['', '', '', '', '', ''];
-            // form.otp = '';
-        }
-    }
-);
 </script>
 
 <template>

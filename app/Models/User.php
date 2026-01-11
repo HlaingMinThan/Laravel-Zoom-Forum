@@ -61,6 +61,7 @@ class User extends Authenticatable
     {
         return $this->hasMany(Answer::class);
     }
+
     public function generateOtpAndSend(){
         $otp = rand(100000,999999);
         
