@@ -16,9 +16,11 @@ class TagFactory extends Factory
      */
     public function definition(): array
     {
+        $name = fake()->unique()->words(2, true);
+
         return [
-            'name'=>fake()->name(),
-            'slug'=>fake()->unique()->slug()
+            'name' => ucwords($name),
+            'slug' => \Illuminate\Support\Str::slug($name),
         ];
     }
 }

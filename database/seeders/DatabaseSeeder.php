@@ -6,8 +6,10 @@ use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Tag;
 use App\Models\User;
+use App\Models\Vote;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {

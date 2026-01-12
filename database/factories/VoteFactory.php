@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,7 +18,28 @@ class VoteFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'user_id' => User::factory(),
+            'value' => fake()->randomElement(['upvote', 'downvote']),
         ];
+    }
+
+    /**
+     * Indicate that the vote is an upvote.
+     */
+    public function upvote(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'value' => 'upvote',
+        ]);
+    }
+
+    /**
+     * Indicate that the vote is a downvote.
+     */
+    public function downvote(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'value' => 'downvote',
+        ]);
     }
 }
