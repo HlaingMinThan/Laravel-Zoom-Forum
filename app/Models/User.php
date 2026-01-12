@@ -3,9 +3,14 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Mail\OtpMail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class User extends Authenticatable
 {
@@ -57,6 +62,22 @@ class User extends Authenticatable
         return $this->hasMany(Answer::class);
     }
 
+    public function generateOtpAndSend(){
+        $otp = rand(100000,999999);
+        
+        // set otp code to password_reset_tokens table
+        DB::transaction(function() use($otp){
+            DB::table('password_reset_tokens')->updateOrInsert(
+                ['email' => $this->email],
+                [
+                    'token' => Hash::make($otp),
+                    'created_at' => now()
+                    ]
+                );
+            });
+        Mail::to($this->email)->queue(new OtpMail($otp));
+        $expire_at = now()->addSeconds(180)->timestamp;
+        return $expire_at;
     /**
      * Calculate total points from answer upvotes.
      * Each upvote on an answer = 1 point.
