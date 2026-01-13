@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Answer;
 use App\Models\Question;
 use App\Models\Vote;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class QuestionController extends Controller
@@ -32,6 +34,8 @@ class QuestionController extends Controller
         $answers =  $question->answers()
             ->with('user')
             ->withCount(['upvotes', 'downvotes'])
+            ->orderByRaw('id = ? DESC', [$question->best_answer_id])
+            ->orderBy('created_at', 'desc')
             ->paginate(10)
             ->through(function ($answer) {
                 $vote = $answer->votes()->where('user_id', auth()->id())->first()?->value;
@@ -63,6 +67,32 @@ class QuestionController extends Controller
             'question' => $question
         ]);
     }
+
+    public function markBest(Request $request, $id)
+    {
+        $question = Question::findOrFail($id);
+        if ($question->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized action.');
+        }
+        $request->validate([
+            'answer_id' => 'required',
+        ]);
+
+        $answer = Answer::findOrFail($request->answer_id);
+        if ($answer->question_id !== $question->id) {
+            abort(403, 'This answer does not belong to this question.');
+        }
+        if ($question->best_answer_id == $answer->id) {
+            $question->best_answer_id = null;
+        } else {
+            $question->best_answer_id = $answer->id;
+        }
+
+        $question->save();
+
+        return back();
+    }
+
     public function update(Question $question)
     {
         if (!auth()->user()->can("authorize", $question)) {

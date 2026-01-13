@@ -2,7 +2,6 @@
 
     <Head :title="question.title" />
 
-    <!-- Question Header -->
     <div class="flex justify-between items-start mb-4 p-10">
         <h1 class="text-[27px] text-[#e6edf3] leading-tight break-words mb-2 flex-1 pr-4">
             {{ question.title }}
@@ -15,28 +14,20 @@
         </Link>
     </div>
 
-    <!-- Meta Row -->
     <div class="flex flex-wrap gap-4 pb-4 border-b border-[#30363d] text-[13px] text-[#8b949e] mb-6">
         <div>
             <span class="text-[#8b949e]">Asked</span>
-            <span class="ml-1 text-[#c9d1d9]">today</span>
-        </div>
-        <div>
-            <span class="text-[#8b949e]">Modified</span>
-            <span class="ml-1 text-[#c9d1d9]">today</span>
+            <span class="ml-1 text-[#c9d1d9]">{{ question.created_at_human }}</span>
         </div>
         <div>
             <span class="text-[#8b949e]">Viewed</span>
-            <span class="ml-1 text-[#c9d1d9]">12 times</span>
+            <span class="ml-1 text-[#c9d1d9]">{{ question.views || 0 }} times</span>
         </div>
     </div>
 
     <div class="flex gap-6">
-        <!-- Main Post Column -->
         <div class="flex-1 min-w-0">
-            <!-- Question Area -->
             <div class="flex gap-4">
-                <!-- Voting Sidebar -->
                 <div class="flex flex-col items-center gap-2 w-10 flex-shrink-0">
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
                         {{ question.upvotes_count }}
@@ -46,11 +37,7 @@
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
                         :class="{ 'text-[#f78166]': userVote === 'upvote' }"
                     >
-                        <svg
-                            class="w-9 h-9"
-                            fill="currentColor"
-                            viewBox="0 0 36 36"
-                        >
+                        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 36 36">
                             <path d="M2 26h32L18 10 2 26z"></path>
                         </svg>
                     </button>
@@ -62,47 +49,17 @@
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
                         :class="{ 'text-[#f78166]': userVote === 'downvote' }"
                     >
-                        <svg
-                            class="w-9 h-9"
-                            fill="currentColor"
-                            viewBox="0 0 36 36"
-                        >
+                        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 36 36">
                             <path d="M2 10h32L18 26 2 10z"></path>
-                        </svg>
-                    </button>
-
-                    <button class="mt-2 p-2 hover:bg-[#21262d] rounded text-[#8b949e] hover:text-[#c9d1d9]">
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                            ></path>
                         </svg>
                     </button>
                 </div>
 
-                <!-- Post Content -->
                 <div class="flex-1 min-w-0">
                     <div class="prose prose-invert max-w-none text-[15px] text-[#c9d1d9] leading-relaxed mb-6">
-                        <!-- Using whitespace-pre-line to preserve line breaks if it's plain text, or v-html if HTML -->
                         <p class="whitespace-pre-line">{{ question.body }}</p>
-
-                        <!-- Code Block Mockup -->
-                        <!-- 
-                                    <div class="bg-[#161b22] p-4 rounded-md overflow-x-auto border border-[#30363d] my-4 font-mono text-[13px]">
-                                        <code class="text-[#c9d1d9]">console.log("Hello World");</code>
-                                    </div>
-                                    -->
                     </div>
 
-                    <!-- Tags -->
                     <div class="flex flex-wrap gap-2 mb-8">
                         <span
                             v-for="tag in question.tags"
@@ -110,7 +67,7 @@
                             class="px-2 py-1 bg-[#1f2d3d] text-[#58a6ff] text-[12px] rounded-[3px] hover:bg-[#2c3e50] cursor-pointer transition-colors"
                         >{{ tag.name }}</span>
                     </div>
-                    <!-- Post Actions & User Card -->
+                    
                     <div class="flex flex-wrap items-center justify-between gap-4 pt-4">
                         <div class="flex gap-3 text-[13px] text-[#8b949e]">
                             <button class="hover:text-[#c9d1d9]">Share</button>
@@ -118,7 +75,6 @@
                             <button class="hover:text-[#c9d1d9]">Follow</button>
                         </div>
 
-                        <!-- Author Card -->
                         <div class="bg-[#161b22] p-2 rounded-[3px] w-48 border border-[#30363d]">
                             <div class="text-[12px] text-[#8b949e] mb-1">
                                 {{ question?.user?.name }}
@@ -127,12 +83,9 @@
                             <div class="flex items-center gap-2">
                                 <div class="w-8 h-8 bg-purple-500 rounded-[3px]"></div>
                                 <div class="flex flex-col text-[13px]">
-                                    <Link
-                                        href="#"
-                                        class="text-[#58a6ff] hover:text-[#79c0ff]"
-                                    >{{
-                                        question.user?.name || "Anonymous"
-                                    }}</Link>
+                                    <Link href="#" class="text-[#58a6ff] hover:text-[#79c0ff]">
+                                        {{ question.user?.name || "Anonymous" }}
+                                    </Link>
                                     <span class="text-[#c9d1d9] font-bold text-[12px]">125</span>
                                 </div>
                             </div>
@@ -141,7 +94,6 @@
                 </div>
             </div>
 
-            <!-- Answers Section Header -->
             <div class="mt-12 flex items-center justify-between mb-4">
                 <h2 class="text-[19px] text-[#e6edf3] font-normal">
                     {{ answers.data.length }} Answers
@@ -153,19 +105,20 @@
                     >
                         <option>Highest score (default)</option>
                         <option>Date modified (newest first)</option>
-                        <option>Date created (oldest first)</option>
                     </select>
                 </div>
             </div>
 
-            <!-- Answers List -->
             <div
                 v-for="answer in answers.data"
                 :id="`answerId-${answer.id}`"
                 :key="answer.id"
-                class="flex gap-4 border-b border-[#30363d] py-6 last:border-0"
+                class="flex gap-4 border-b border-[#30363d] py-6 last:border-0 transition-all duration-300"
+                :class="{
+                    'border border-green-500/50 bg-[rgba(46,160,67,0.05)] rounded-md px-4 -mx-4': isBestAnswer(answer.id),
+                    'border-transparent': !isBestAnswer(answer.id)
+                }"
             >
-                <!-- Voting Sidebar -->
                 <div class="flex flex-col items-center gap-2 w-10 flex-shrink-0">
                     <div class="text-[21px] font-semibold text-[#c9d1d9]">
                         {{ answer.upvotes_count }}
@@ -175,11 +128,7 @@
                         @click="vote('upvote', 'answer', answer.id)"
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
                     >
-                        <svg
-                            class="w-9 h-9"
-                            fill="currentColor"
-                            viewBox="0 0 36 36"
-                        >
+                        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 36 36">
                             <path d="M2 26h32L18 10 2 26z"></path>
                         </svg>
                     </button>
@@ -191,39 +140,45 @@
                         @click="vote('downvote', 'answer', answer.id)"
                         class="p-2 rounded-full hover:bg-[#21262d] text-[#8b949e] hover:text-[#f78166] transition-colors"
                     >
-                        <svg
-                            class="w-9 h-9"
-                            fill="currentColor"
-                            viewBox="0 0 36 36"
-                        >
+                        <svg class="w-9 h-9" fill="currentColor" viewBox="0 0 36 36">
                             <path d="M2 10h32L18 26 2 10z"></path>
                         </svg>
                     </button>
 
-                    <button class="mt-2 p-2 hover:bg-[#21262d] rounded text-[#8b949e] hover:text-[#c9d1d9]">
-                        <svg
-                            class="w-5 h-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                        >
-                            <path
-                                stroke-linecap="round"
-                                stroke-linejoin="round"
-                                stroke-width="2"
-                                d="M5 5a2 2 0 012-2h10a2 2 0 012 2v16l-7-3.5L5 21V5z"
-                            ></path>
-                        </svg>
-                    </button>
+                   <div class="mt-4">
+    <button
+        v-if="canMarkBest"
+        @click="markAsBest(answer.id)"
+        class="transition-all duration-200"
+        :class="{
+            'text-green-500 hover:text-green-600': isBestAnswer(answer.id),   
+            'text-[#30363d] hover:text-green-500 opacity-50 hover:opacity-100': !isBestAnswer(answer.id)
+        }"
+        :title="isBestAnswer(answer.id) ? 'Click to unmark as best answer' : 'Mark as best answer'"
+    >
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+    </button>
+
+    <div 
+        v-else-if="isBestAnswer(answer.id)" 
+        class="text-green-500" 
+        title="The question owner accepted this as the best answer"
+    >
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+        </svg>
+    </div>
+</div>
+
                 </div>
 
-                <!-- Answer Content -->
                 <div class="flex-1 min-w-0">
                     <div class="prose prose-invert max-w-none text-[15px] text-[#c9d1d9] leading-relaxed mb-6">
                         <p class="whitespace-pre-line">{{ answer.body }}</p>
                     </div>
 
-                    <!-- Answer Actions & User Card -->
                     <div class="flex flex-wrap items-center justify-between gap-4 pt-4">
                         <div class="flex gap-3 text-[13px] text-[#8b949e]">
                             <button class="hover:text-[#c9d1d9]">Share</button>
@@ -231,7 +186,6 @@
                             <button class="hover:text-[#c9d1d9]">Follow</button>
                         </div>
 
-                        <!-- Author Card -->
                         <div class="bg-[#161b22] p-2 rounded-[3px] w-48 border border-[#30363d]">
                             <div class="text-[12px] text-[#8b949e] mb-1">
                                 {{ answer.user?.name }}
@@ -254,15 +208,13 @@
                     </div>
                 </div>
             </div>
+            
             <div
                 class="mt-6 mb-10 flex justify-center"
                 v-if="answers.links.length > 3"
             >
                 <div class="flex flex-wrap gap-1">
-                    <template
-                        v-for="(link, key) in answers.links"
-                        :key="key"
-                    >
+                    <template v-for="(link, key) in answers.links" :key="key">
                         <div
                             v-if="link.url === null"
                             class="px-3 py-2 text-sm text-[#8b949e] border border-transparent rounded-[6px]"
@@ -283,7 +235,6 @@
                 </div>
             </div>
 
-            <!-- Answer Placeholder (if no answers) -->
             <div
                 v-if="answers.data.length === 0"
                 class="border-t border-[#30363d] py-10 text-center text-[#8b949e]"
@@ -295,7 +246,6 @@
                 <span class="text-[#58a6ff] cursor-pointer">Facebook</span>.
             </div>
 
-            <!-- Your Answer Section -->
             <form
                 @submit.prevent="submit"
                 class="mt-8 pt-6 border-t border-[#30363d]"
@@ -305,15 +255,14 @@
                 </h2>
                 <div
                     class="border border-[#30363d] rounded-[3px] bg-[#0d1117] overflow-hidden focus-within:border-[#58a6ff] focus-within:ring-1 focus-within:ring-[#58a6ff]/50 transition-all">
-                    <!-- Toolbar Mock -->
                     <div class="bg-[#161b22] border-b border-[#30363d] p-2 flex gap-2 overflow-x-auto">
-                        <button class="p-1 text-[#8b949e] hover:bg-[#21262d] rounded">
+                        <button type="button" class="p-1 text-[#8b949e] hover:bg-[#21262d] rounded">
                             <span class="font-bold font-serif">B</span>
                         </button>
-                        <button class="p-1 text-[#8b949e] hover:bg-[#21262d] rounded">
+                        <button type="button" class="p-1 text-[#8b949e] hover:bg-[#21262d] rounded">
                             <span class="italic font-serif">I</span>
                         </button>
-                        <button class="p-1 text-[#8b949e] hover:bg-[#21262d] rounded">
+                        <button type="button" class="p-1 text-[#8b949e] hover:bg-[#21262d] rounded">
                             <span class="font-mono">&lt;/&gt;</span>
                         </button>
                     </div>
@@ -344,14 +293,21 @@
     </div>
 </template>
 <script>
-import { useForm } from "@inertiajs/vue3";
-import {Link} from "@inertiajs/vue3";
+import { useForm, usePage } from "@inertiajs/vue3";
+import { Link } from "@inertiajs/vue3";
+
 export default {
-    components: {Link},
+    components: { Link },
     props: {
         question: Object,
         answers: Object,
         userVote: String,
+    },
+    computed: {
+        canMarkBest() {
+            const user = usePage().props.auth.user; 
+            return user && user.id === this.question.user_id;
+        }
     },
     data() {
         return {
@@ -377,12 +333,24 @@ export default {
             this.$inertia.post("/votes", data, {
                 preserveScroll: true
             })
+        },
+      
+        isBestAnswer(answerId) {
+            return this.question.best_answer_id === answerId;
+        },
+       
+        markAsBest(answerId) {
+            this.$inertia.post(`/questions/${this.question.id}/best-answer`, {
+                answer_id: answerId
+            }, {
+                preserveScroll: true
+            });
         }
     },
 };
 </script>
 <style>
-/* Custom scrollbar for dark mode if needed */
+/* Custom scrollbar for dark mode */
 ::-webkit-scrollbar {
     width: 10px;
 }

@@ -20,6 +20,7 @@ Route::post('/questions/store', [QuestionController::class, 'store'])->name('que
 Route::get('/questions/{id}', [QuestionController::class, 'show'])->name('questions.show');
 Route::delete('/questions/{question}/destroy', [QuestionController::class, 'destroy'])->name('questions.destroy');
 Route::post('/answers/store', [AnswerController::class, 'store'])->name('answers.store')->middleware(AuthMiddleware::class);
+Route::post('/questions/{id}/best-answer', [QuestionController::class, 'markBest'])->name('questions.markBest')->middleware(AuthMiddleware::class);
 
 Route::post('/votes', [VoteController::class, 'toggle'])->name('votes.toggle')->middleware(AuthMiddleware::class);
 Route::middleware('auth')->group(function () {
