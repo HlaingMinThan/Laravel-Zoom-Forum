@@ -11,17 +11,34 @@
       <div class="text-[#8b949e] text-[12px]">
         <span class="font-bold">0</span> views
       </div>
+       <button
+      @click="translateToEnglish"
+      style="
+        padding: 10px;
+        background-color: #2563eb;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        font-size: 14px;
+        margin-bottom: 12px;
+      "
+    >
+      Translate (EN)
+    </button>
+
+   
     </div>
     <!-- Content -->
     <div class="flex-1 min-w-0">
       <h3 class="text-[17px] font-normal text-[#58a6ff] hover:text-[#79c0ff] mb-1 leading-snug break-words">
         <Link :href="route('questions.show', question.id)">{{
-          question.title
+          translatedTitle || question.title
         }}</Link>
       </h3>
       <p class="text-[13px] text-[#c9d1d9] mb-2 line-clamp-2 leading-relaxed">
         {{
-          question.body || "No description available for this question..."
+           translatedBody || question.body || "No description available for this question..."
         }}
       </p>
       <div class="flex flex-wrap items-center justify-between gap-y-2">
@@ -75,12 +92,19 @@
 
 <script>
 import { Link } from "@inertiajs/vue3";
+import axios from 'axios';
 
 export default {
   components: { Link },
   props: {
     question: {
       type: Object
+    }
+  },
+   data() {
+    return {
+      translatedTitle: '',
+      translatedBody: ''
     }
   },
   methods: {
@@ -90,6 +114,20 @@ export default {
     deleteQuestion() {
       // blank method
       this.$inertia.delete("/questions/"+this.question.id+"/destroy");
+    },
+    async translateToEnglish() {
+      try {
+        const res = await axios.post('/translate', {
+          title: this.question?.title,
+          body: this.question?.body,
+          lang: 'en'
+        });
+
+        this.translatedTitle = res.data.translatedTitle;
+        this.translatedBody = res.data.translatedBody;
+      } catch (e) {
+        console.error('Translation error:', e);
+      }
     }
   }
 }

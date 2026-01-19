@@ -10,7 +10,14 @@ use App\Models\Question;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Http\Controllers\TranslateController;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
+
+
+Route::post('/translate',[TranslateController::class,'translate'])->name('translate');
 Route::get('/', [QuestionController::class, 'index'])->name('home');
 Route::get('/users/{user}', [UserController::class, 'show'])->name('users.show');
 Route::get('/questions/ask', [QuestionController::class, 'create'])->name('questions.create');

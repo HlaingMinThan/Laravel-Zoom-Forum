@@ -47,6 +47,8 @@
       :question="question"
     />
 
+   
+
     <!-- Empty State -->
     <div
       v-if="questions.data.length === 0"
@@ -67,6 +69,7 @@
           />
         </svg>
       </div>
+      
       <p class="text-lg font-medium text-[#c9d1d9]">No questions found</p>
       <p class="text-[13px] mt-1">
         Be the first to ask a question in this community.
